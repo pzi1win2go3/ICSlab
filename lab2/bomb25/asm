@@ -1,0 +1,366 @@
+000000000040109a <phase_1>:
+  40109a:	48 83 ec 08          	sub    $0x8,%rsp
+  40109e:	be f8 25 40 00       	mov    $0x4025f8,%esi
+  4010a3:	e8 27 01 00 00       	callq  4011cf <strings_not_equal>
+  4010a8:	85 c0                	test   %eax,%eax
+  4010aa:	74 05                	je     4010b1 <phase_1+0x17>            // <------- DO make eax == 0 that is arg1 == arg2 
+  4010ac:	e8 f0 02 00 00       	callq  4013a1 <explode_bomb>
+  4010b1:	48 83 c4 08          	add    $0x8,%rsp
+  4010b5:	c3                   	retq   
+
+0000000000400ff2 <phase_2>:
+  400ff2: 55                    push   %rbp
+  400ff3: 53                    push   %rbx
+  400ff4: 48 83 ec 28           sub    $0x28,%rsp
+  400ff8: 48 89 e6              mov    %rsp,%rsi                        // put rsp in arg2
+  400ffb: e8 d7 03 00 00        callq  4013d7 <read_six_numbers>
+  401000: 83 3c 24 00           cmpl   $0x0,(%rsp)                      // 
+  401004: 75 07                 jne    40100d <phase_2+0x1b>            // <-------- DO make arg1 == 0
+  401006: 83 7c 24 04 01        cmpl   $0x1,0x4(%rsp)
+  40100b: 74 08                 je     401015 <phase_2+0x23>            // <-------- DO make arg2 == 1
+  40100d: 0f 1f 00              nopl   (%rax)
+  401010: e8 8c 03 00 00        callq  4013a1 <explode_bomb>            // <-------- 1
+  401015: 48 8d 5c 24 08        lea    0x8(%rsp),%rbx                   // put arg3 in rbx
+  40101a: 48 8d 6c 24 18        lea    0x18(%rsp),%rbp                    
+  40101f: 8b 43 f8              mov    -0x8(%rbx),%eax
+  401022: 03 43 fc              add    -0x4(%rbx),%eax                  // eax = arg1 + arg2
+  401025: 39 03                 cmp    %eax,(%rbx)                      // cmp arg1 + arg2 and arg3
+  401027: 74 05                 je     40102e <phase_2+0x3c>            // <-------- DO make this equal that is arg1 + arg2 == arg3
+  401029: e8 73 03 00 00        callq  4013a1 <explode_bomb>            // <-------- 2
+  40102e: 48 83 c3 04           add    $0x4,%rbx                        // put arg4 in rbx
+  401032: 48 39 eb              cmp    %rbp,%rbx                        
+  401035: 75 e8                 jne    40101f <phase_2+0x2d>
+  401037: 48 83 c4 28           add    $0x28,%rsp
+  40103b: 5b                    pop    %rbx
+  40103c: 5d                    pop    %rbp
+  40103d: c3                    retq   
+
+0000000000401113 <phase_3>:
+  401113: 48 83 ec 18           sub    $0x18,%rsp
+  401117: 48 8d 4c 24 10        lea    0x10(%rsp),%rcx
+  40111c: 48 8d 54 24 14        lea    0x14(%rsp),%rdx
+  401121: be ed 26 40 00        mov    $0x4026ed,%esi
+  401126: b8 00 00 00 00        mov    $0x0,%eax
+  40112b: e8 10 fa ff ff        callq  400b40 <sscanf@plt>              // 2 inputs
+  401130: 83 f8 01              cmp    $0x1,%eax
+  401133: 7f 05                 jg     40113a <phase_3+0x27>
+  401135: e8 67 02 00 00        callq  4013a1 <explode_bomb>
+  40113a: 83 7c 24 14 07        cmpl   $0x7,0x14(%rsp)                  // first input <= 7
+  40113f: 90                    nop
+  401140: 77 47                 ja     401189 <phase_3+0x76>
+  401142: 8b 44 24 14           mov    0x14(%rsp),%eax                  // put first input in eax
+  401146: ff 24 c5 30 26 40 00  jmpq   *0x402630(,%rax,8)               // go to 115b + first input * 8
+  40114d: b8 cf 02 00 00        mov    $0x2cf,%eax
+  401152: eb 46                 jmp    40119a <phase_3+0x87>
+  401154: b8 d0 00 00 00        mov    $0xd0,%eax
+  401159: eb 3f                 jmp    40119a <phase_3+0x87>
+  40115b: b8 c1 03 00 00        mov    $0x3c1,%eax                        // eax = 3c1
+  401160: eb 38                 jmp    40119a <phase_3+0x87>              // go to 119a
+  401162: b8 5b 01 00 00        mov    $0x15b,%eax
+  401167: eb 31                 jmp    40119a <phase_3+0x87>
+  401169: b8 49 00 00 00        mov    $0x49,%eax
+  40116e: 66 90                 xchg   %ax,%ax
+  401170: eb 28                 jmp    40119a <phase_3+0x87>
+  401172: b8 bc 03 00 00        mov    $0x3bc,%eax
+  401177: eb 21                 jmp    40119a <phase_3+0x87>
+  401179: b8 8c 03 00 00        mov    $0x38c,%eax
+  40117e: 66 90                 xchg   %ax,%ax
+  401180: eb 18                 jmp    40119a <phase_3+0x87>
+  401182: b8 10 02 00 00        mov    $0x210,%eax
+  401187: eb 11                 jmp    40119a <phase_3+0x87>
+  401189: 0f 1f 80 00 00 00 00  nopl   0x0(%rax)
+  401190: e8 0c 02 00 00        callq  4013a1 <explode_bomb>
+  401195: b8 00 00 00 00        mov    $0x0,%eax
+  40119a: 3b 44 24 10           cmp    0x10(%rsp),%eax                    // cmp eax == second input
+  40119e: 74 05                 je     4011a5 <phase_3+0x92>              // DO make eax == seconde input
+  4011a0: e8 fc 01 00 00        callq  4013a1 <explode_bomb>
+  4011a5: 48 83 c4 18           add    $0x18,%rsp
+  4011a9: c3                    retq   
+  4011aa: 90                    nop
+  4011ab: 90                    nop
+  4011ac: 90                    nop
+  4011ad: 90                    nop
+  4011ae: 90                    nop
+  4011af: 90                    nop
+
+00000000004010b6 <phase_4>:
+  4010b6:	48 83 ec 18          	sub    $0x18,%rsp
+  4010ba:	48 8d 4c 24 10       	lea    0x10(%rsp),%rcx
+  4010bf:	48 8d 54 24 14       	lea    0x14(%rsp),%rdx
+  4010c4:	be ed 26 40 00       	mov    $0x4026ed,%esi
+  4010c9:	b8 00 00 00 00       	mov    $0x0,%eax
+  4010ce:	e8 6d fa ff ff       	callq  400b40 <sscanf@plt>              // 2 input
+  4010d3:	83 f8 02             	cmp    $0x2,%eax
+  4010d6:	75 0d                	jne    4010e5 <phase_4+0x2f>
+  4010d8:	8b 44 24 14          	mov    0x14(%rsp),%eax                  // 1st input in eax
+  4010dc:	85 c0                	test   %eax,%eax
+  4010de:	78 05                	js     4010e5 <phase_4+0x2f>            // 1st input should >= 0
+  4010e0:	83 f8 0e             	cmp    $0xe,%eax                        // cmp 1st input and 14
+  4010e3:	7e 05                	jle    4010ea <phase_4+0x34>            // DO make 1st input <= 14
+  4010e5:	e8 b7 02 00 00       	callq  4013a1 <explode_bomb>
+  4010ea:	8b 7c 24 14          	mov    0x14(%rsp),%edi                  // 1st input in edi
+  4010ee:	ba 0e 00 00 00       	mov    $0xe,%edx                        // edx = 14
+  4010f3:	be 00 00 00 00       	mov    $0x0,%esi                        // esi = 0
+  4010f8:	e8 23 fd ff ff       	callq  400e20 <func4>             
+  4010fd:	83 f8 15             	cmp    $0x15,%eax                       // cmp return != 21 ?
+  401100:	75 07                	jne    401109 <phase_4+0x53>            // DO make return == 21
+  401102:	83 7c 24 10 15       	cmpl   $0x15,0x10(%rsp)                 // cmp 2nd input == 21 ?
+  401107:	74 05                	je     40110e <phase_4+0x58>            // DO make 2nd input == 21
+  401109:	e8 93 02 00 00       	callq  4013a1 <explode_bomb>
+  40110e:	48 83 c4 18          	add    $0x18,%rsp
+  401112:	c3                   	retq   
+
+000000000040103e <phase_5>:
+  40103e: 53                    push   %rbx
+  40103f: 48 83 ec 10           sub    $0x10,%rsp
+  401043: 48 89 fb              mov    %rdi,%rbx                        // rbx = arg1
+  401046: e8 65 01 00 00        callq  4011b0 <string_length>
+  40104b: 83 f8 06              cmp    $0x6,%eax                        // cmp 6 == len(arg1) ?
+  40104e: 74 05                 je     401055 <phase_5+0x17>            // DO make 6 == len(arg1)
+  401050: e8 4c 03 00 00        callq  4013a1 <explode_bomb>
+  401055: ba 00 00 00 00        mov    $0x0,%edx                        // rdx = 0
+  40105a: 48 89 e7              mov    %rsp,%rdi                        // rdi = rsp
+  --------------------------------------------------------------------------------------------------------------------- 6 times
+  40105d: 48 0f be 04 1a        movsbq (%rdx,%rbx,1),%rax               // rax = arg1[rdx]
+  401062: 83 e0 0f              and    $0xf,%eax                        // rax = rax & 0xf                                  -29
+  401065: 0f b6 80 70 26 40 00  movzbl 0x402670(%rax),%eax              // 0x402670 "maduiersnfotvbylInvalid phase %s\n"    -30
+                                                                                     0123456789012345678901234567890123     -31
+  40106c: 88 04 3a              mov    %al,(%rdx,%rdi,1)                //                                                  -32
+  40106f: 48 83 c2 01           add    $0x1,%rdx 
+  401073: 48 83 fa 06           cmp    $0x6,%rdx
+  401077: 75 e4                 jne    40105d <phase_5+0x1f>
+  ---------------------------------------------------------------------------------------------------------------------
+  401079: c6 44 24 06 00        movb   $0x0,0x6(%rsp)                   // make rsp == "oilers"
+  40107e: be 29 26 40 00        mov    $0x402629,%esi                   // esi = 0x402629 "oilers"
+  401083: 48 89 e7              mov    %rsp,%rdi                        // make rsp == edi == esi 
+  401086: e8 44 01 00 00        callq  4011cf <strings_not_equal>
+  40108b: 85 c0                 test   %eax,%eax                        // make rax == 0
+  40108d: 74 05                 je     401094 <phase_5+0x56>
+  40108f: e8 0d 03 00 00        callq  4013a1 <explode_bomb>
+  401094: 48 83 c4 10           add    $0x10,%rsp
+  401098: 5b                    pop    %rbx
+  401099: c3                    retq   
+
+0000000000400edd <phase_6>:
+  400edd: 41 57                 push   %r15                         
+  400edf: 41 56                 push   %r14
+  400ee1: 41 55                 push   %r13
+  400ee3: 41 54                 push   %r12
+  400ee5: 55                    push   %rbp
+  400ee6: 53                    push   %rbx
+  400ee7: 48 83 ec 58           sub    $0x58,%rsp
+  400eeb: 48 8d 74 24 30        lea    0x30(%rsp),%rsi                // rsi = (rsp) + 30 = arg1
+  400ef0: e8 e2 04 00 00        callq  4013d7 <read_six_numbers>
+  400ef5: 41 bd 00 00 00 00     mov    $0x0,%r13d                     // r13 = 0
+  400efb: 4c 8d 74 24 30        lea    0x30(%rsp),%r14                // r14 = (rsp) + 30 = arg1
+  400f00: 4d 89 f7              mov    %r14,%r15                      // r15 = arg1
+  --------------------------------------------------------------------------------------
+  400f03: 4d 89 ec              mov    %r13,%r12                      // r12 = r13
+  400f06: 43 8b 04 ae           mov    (%r14,%r13,4),%eax             // eax = (&arg1 + r13 * 4)
+  400f0a: 83 e8 01              sub    $0x1,%eax                      // eax--
+  400f0d: 83 f8 05              cmp    $0x5,%eax                      // cmp eax <= 5 ?
+  400f10: 76 05                 jbe    400f17 <phase_6+0x3a>          // DO make eax <= 5
+  400f12: e8 8a 04 00 00        callq  4013a1 <explode_bomb>
+  400f17: 41 8d 5d 01           lea    0x1(%r13),%ebx                 // ebx = (r13) + 1         j = i + 1
+  400f1b: 49 83 fd 05           cmp    $0x5,%r13                      // cmp r13 == 5 ?
+  400f1f: 0f 84 aa 00 00 00     je     400fcf <phase_6+0xf2>          // GET OUT HERE !!!!!!!!!! if r13 == 5
+  400f25: 4c 89 fd              mov    %r15,%rbp                      // rbp = arg1
+  ------------------------------------------------------------------------
+  400f28: 48 63 d3              movslq %ebx,%rdx                      // rdx = ebx
+  400f2b: 42 8b 44 a5 00        mov    0x0(%rbp,%r12,4),%eax          // eax = arg1 + r12 * 4 
+  400f30: 3b 44 94 30           cmp    0x30(%rsp,%rdx,4),%eax         // cmp eax != (rdx * 4 + &arg1) ?   
+  400f34: 75 05                 jne    400f3b <phase_6+0x5e>          // DO make eax != (rdx * 4 + &arg1)
+  400f36: e8 66 04 00 00        callq  4013a1 <explode_bomb>
+  400f3b: 83 c3 01              add    $0x1,%ebx                      // ebx++
+  400f3e: 83 fb 05              cmp    $0x5,%ebx                      // if ebx <= 5, then loop
+  400f41: 7e e5                 jle    400f28 <phase_6+0x4b>
+  ------------------------------------------------------------------------
+  400f43: 49 83 c5 01           add    $0x1,%r13                      // r13++                  i++
+  400f47: eb ba                 jmp    400f03 <phase_6+0x26>
+  --------------------------------------------------------------------------------------
+
+
+
+
+  --------------------------------------------------------------------------------------v 
+  400f49: 48 8b 76 08           mov    0x8(%rsi),%rsi                 // rsi = arg[3,5]
+  400f4d: 83 c2 01              add    $0x1,%edx                      // edx++
+  400f50: 48 63 c1              movslq %ecx,%rax                      // [esi = 210, edx = 1, ecx = 0], rax = ecx
+  400f53: 3b 54 84 30                      // cmp edx < arg[rax]
+  400f57: 7c f0                 jl     400f49 <phase_6+0x6c>          
+  -------------------------------------------------------------------------------------- // over when arg[rax] >= edx
+  400f59: 48 89 34 c4           mov    %rsi,(%rsp,%rax,8)       //       
+  400f5d: 83 c1 01              add    $0x1,%ecxv               // ecx++
+  400f60: 83 f9 05              cmp    $0x5,%ecxv               // DO make ecx > 5, then to f71
+  400f63: 7f 0c                 jg     400f71 <phase_6+0x94>
+  400f65: be b0 37 60 00        mov    $0x6037b0,%esi           // esi = 210
+  400f6a: ba 01 00 00 00        mov    $0x1,%edx
+  400f6f: eb df                 jmp    400f50 <phase_6+0x73>
+
+    
+  -------------------------------------------------------------------------------------- 
+
+
+  400f71: 48 8b 0c 24           mov    (%rsp),%rcx
+  400f75: 48 8b 44 24 08        mov    0x8(%rsp),%rax
+  400f7a: 48 89 41 08           mov    %rax,0x8(%rcx)
+  400f7e: 48 8b 54 24 10        mov    0x10(%rsp),%rdx
+  400f83: 48 89 50 08           mov    %rdx,0x8(%rax)
+  400f87: 48 8b 44 24 18        mov    0x18(%rsp),%rax
+  400f8c: 48 89 42 08           mov    %rax,0x8(%rdx)
+  400f90: 48 8b 54 24 20        mov    0x20(%rsp),%rdx
+  400f95: 48 89 50 08           mov    %rdx,0x8(%rax)
+  400f99: 48 8b 44 24 28        mov    0x28(%rsp),%rax
+  400f9e: 48 89 42 08           mov    %rax,0x8(%rdx)
+  400fa2: 48 c7 40 08 00 00 00  movq   $0x0,0x8(%rax)
+  400fa9: 00 
+  400faa: 48 89 cb              mov    %rcx,%rbx
+  400fad: bd 00 00 00 00        mov    $0x0,%ebp
+
+
+  -------------------------------------------------------------------------------------- 
+  400fb2: 48 8b 53 08           mov    0x8(%rbx),%rdx
+  400fb6: 8b 03                 mov    (%rbx),%eax              // eax = (rbx)
+  400fb8: 3b 02                 cmp    (%rdx),%eax              // eax <= (rdx)
+  400fba: 7e 05                 jle    400fc1 <phase_6+0xe4>
+  400fbc: e8 e0 03 00 00        callq  4013a1 <explode_bomb>
+  400fc1: 48 8b 5b 08           mov    0x8(%rbx),%rbx           // rbx += 8
+  400fc5: 83 c5 01              add    $0x1,%ebp                // ebp == 4
+  400fc8: 83 fd 05              cmp    $0x5,%ebp                // ebp == 5
+  400fcb: 74 16                 je     400fe3 <phase_6+0x106>   // GET OUT HERE !!!!!!!!!!
+  400fcd: eb e3                 jmp    400fb2 <phase_6+0xd5>
+  --------------------------------------------------------------------------------------
+  400fcf: be b0 37 60 00        mov    $0x6037b0,%esi           // esi = 0xd2 = 210
+  400fd4: ba 01 00 00 00        mov    $0x1,%edx                
+  400fd9: b9 00 00 00 00        mov    $0x0,%ecx
+  400fde: e9 6d ff ff ff        jmpq   400f50 <phase_6+0x73>
+  400fe3: 48 83 c4 58           add    $0x58,%rsp
+  400fe7: 5b                    pop    %rbx
+  400fe8: 5d                    pop    %rbp
+  400fe9: 41 5c                 pop    %r12
+  400feb: 41 5d                 pop    %r13
+  400fed: 41 5e                 pop    %r14
+  400fef: 41 5f                 pop    %r15
+  400ff1: c3                    retq   
+
+0000000000400e89 <secret_phase>:
+  400e89: 53                    push   %rbx
+  400e8a: e8 08 06 00 00        callq  401497 <read_line>
+  400e8f: 48 89 c7              mov    %rax,%rdi
+  400e92: b9 00 00 00 00        mov    $0x0,%ecx
+  400e97: ba 0a 00 00 00        mov    $0xa,%edx
+  400e9c: be 00 00 00 00        mov    $0x0,%esi
+  400ea1: e8 8a fc ff ff        callq  400b30 <__strtol_internal@plt>
+  400ea6: 89 c3                 mov    %eax,%ebx
+  400ea8: 8d 40 ff              lea    -0x1(%rax),%eax
+  400eab: 3d e8 03 00 00        cmp    $0x3e8,%eax
+  400eb0: 76 05                 jbe    400eb7 <secret_phase+0x2e>
+  400eb2: e8 ea 04 00 00        callq  4013a1 <explode_bomb>
+  400eb7: 89 de                 mov    %ebx,%esi
+  400eb9: bf 80 39 60 00        mov    $0x603980,%edi
+  400ebe: e8 92 ff ff ff        callq  400e55 <fun7>
+  400ec3: 85 c0                 test   %eax,%eax
+  400ec5: 74 05                 je     400ecc <secret_phase+0x43>
+  400ec7: e8 d5 04 00 00        callq  4013a1 <explode_bomb>
+  400ecc: bf d0 25 40 00        mov    $0x4025d0,%edi
+  400ed1: e8 ba fb ff ff        callq  400a90 <puts@plt>
+  400ed6: e8 3a 04 00 00        callq  401315 <phase_defused>
+  400edb: 5b                    pop    %rbx
+  400edc: c3                    retq   
+
+00000000004011b0 <string_length>:
+  4011b0:	b8 00 00 00 00       	mov    $0x0,%eax
+  4011b5:	80 3f 00             	cmpb   $0x0,(%rdi)  
+  4011b8:	74 13                	je     4011cd <string_length+0x1d>      // if arg1 == 0 then return 0
+  4011ba:	48 89 fa             	mov    %rdi,%rdx                        // put arg1 in rdx
+                                                                        -----------------------------------------
+  4011bd:	0f b6 42 01          	movzbl 0x1(%rdx),%eax                   // get the length of arg1 in eax
+  4011c1:	48 83 c2 01          	add    $0x1,%rdx
+  4011c5:	84 c0                	test   %al,%al
+  4011c7:	75 f4                	jne    4011bd <string_length+0xd>   
+                                                                        -----------------------------------------
+  4011c9:	89 d0                	mov    %edx,%eax
+  4011cb:	29 f8                	sub    %edi,%eax
+  4011cd:	f3 c3                	repz retq                               // return the length of arg1
+
+00000000004011cf <strings_not_equal>:
+  4011cf:	41 54                	push   %r12
+  4011d1:	55                   	push   %rbp
+  4011d2:	53                   	push   %rbx
+  4011d3:	48 89 fd             	mov    %rdi,%rbp                        // put arg1 in rbp
+  4011d6:	49 89 f4             	mov    %rsi,%r12                        // put arg2 in r12
+  4011d9:	e8 d2 ff ff ff       	callq  4011b0 <string_length>           // get length of arg1 in eax
+  4011de:	89 c3                	mov    %eax,%ebx                        // put length of arg1 in ebx
+  4011e0:	4c 89 e7             	mov    %r12,%rdi                        // put arg2 in rdi
+  4011e3:	e8 c8 ff ff ff       	callq  4011b0 <string_length>           // get length of arg2 in eax
+  4011e8:	39 c3                	cmp    %eax,%ebx                        // cmp len(arg1) len(arg2)
+  4011ea:	75 32                	jne    40121e <strings_not_equal+0x4f>  // DO make len(arg1) == len(arg2)
+  4011ec:	0f b6 45 00          	movzbl 0x0(%rbp),%eax                   // put arg1[0] in eax
+  4011f0:	84 c0                	test   %al,%al                          // test arg1[0] == 0 ?
+  4011f2:	74 31                	je     401225 <strings_not_equal+0x56>  <-------------- // DO make arg1[0] == 0
+  4011f4:	48 89 e9             	mov    %rbp,%rcx
+  4011f7:	4c 89 e2             	mov    %r12,%rdx
+  4011fa:	41 3a 04 24          	cmp    (%r12),%al
+  4011fe:	74 13                	je     401213 <strings_not_equal+0x44>
+  401200:	eb 1c                	jmp    40121e <strings_not_equal+0x4f>
+  401202:	0f b6 42 01          	movzbl 0x1(%rdx),%eax
+  401206:	48 83 c1 01          	add    $0x1,%rcx
+  40120a:	48 83 c2 01          	add    $0x1,%rdx
+  40120e:	40 38 c6             	cmp    %al,%sil
+  401211:	75 0b                	jne    40121e <strings_not_equal+0x4f>
+  401213:	0f b6 71 01          	movzbl 0x1(%rcx),%esi
+  401217:	40 84 f6             	test   %sil,%sil
+  40121a:	75 e6                	jne    401202 <strings_not_equal+0x33>
+  40121c:	eb 07                	jmp    401225 <strings_not_equal+0x56>
+  40121e:	b8 01 00 00 00       	mov    $0x1,%eax
+  401223:	eb 05                	jmp    40122a <strings_not_equal+0x5b>
+  401225:	b8 00 00 00 00       	mov    $0x0,%eax
+  40122a:	5b                   	pop    %rbx
+  40122b:	5d                   	pop    %rbp
+  40122c:	41 5c                	pop    %r12
+  40122e:	66 90                	xchg   %ax,%ax
+  401230:	c3                   	retq   
+
+  00000000004013d7 <read_six_numbers>:
+  4013d7: 48 83 ec 18           sub    $0x18,%rsp
+  4013db: 48 8d 4e 04           lea    0x4(%rsi),%rcx                   // put arg2 + 4 in rcx
+  4013df: 48 8d 46 14           lea    0x14(%rsi),%rax                  // put arg2 + 14 in rax
+  4013e3: 48 89 44 24 08        mov    %rax,0x8(%rsp)                   // put arg2 + 14 in 8(rsp)
+  4013e8: 48 8d 46 10           lea    0x10(%rsi),%rax                  // put arg2 + 10 in rax
+  4013ec: 48 89 04 24           mov    %rax,(%rsp)                      // put arg2 + 10 in rsp
+  4013f0: 4c 8d 4e 0c           lea    0xc(%rsi),%r9
+  4013f4: 4c 8d 46 08           lea    0x8(%rsi),%r8
+  4013f8: 48 89 f2              mov    %rsi,%rdx
+  4013fb: be e1 26 40 00        mov    $0x4026e1,%esi                   // put "%d %d %d %d %d %d" in arg2
+  401400: b8 00 00 00 00        mov    $0x0,%eax
+  401405: e8 36 f7 ff ff        callq  400b40 <sscanf@plt>
+  40140a: 83 f8 05              cmp    $0x5,%eax
+  40140d: 7f 05                 jg     401414 <read_six_numbers+0x3d>   // DO make eax > 5 that is input > 5
+  40140f: e8 8d ff ff ff        callq  4013a1 <explode_bomb>
+  401414: 48 83 c4 18           add    $0x18,%rsp
+  401418: c3                    retq 
+
+  0000000000400e20 <func4>:
+  400e20: 53                    push   %rbx
+  400e21: 89 d1                 mov    %edx,%ecx
+  400e23: 29 f2                 sub    %esi,%edx
+  400e25: 89 d0                 mov    %edx,%eax
+  400e27: c1 e8 1f              shr    $0x1f,%eax
+  400e2a: 01 d0                 add    %edx,%eax
+  400e2c: d1 f8                 sar    %eax
+  400e2e: 8d 1c 30              lea    (%rax,%rsi,1),%ebx
+  400e31: 39 fb                 cmp    %edi,%ebx
+  400e33: 7e 0c                 jle    400e41 <func4+0x21>
+  400e35: 8d 53 ff              lea    -0x1(%rbx),%edx
+  400e38: e8 e3 ff ff ff        callq  400e20 <func4>
+  400e3d: 01 c3                 add    %eax,%ebx
+  400e3f: eb 10                 jmp    400e51 <func4+0x31>
+  400e41: 39 fb                 cmp    %edi,%ebx
+  400e43: 7d 0c                 jge    400e51 <func4+0x31>
+  400e45: 8d 73 01              lea    0x1(%rbx),%esi
+  400e48: 89 ca                 mov    %ecx,%edx
+  400e4a: e8 d1 ff ff ff        callq  400e20 <func4>
+  400e4f: 01 c3                 add    %eax,%ebx
+  400e51: 89 d8                 mov    %ebx,%eax
+  400e53: 5b                    pop    %rbx
+  400e54: c3                    retq

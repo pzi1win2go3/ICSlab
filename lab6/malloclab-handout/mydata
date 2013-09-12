@@ -1,0 +1,95 @@
+Using default tracefiles in ./traces/
+Measuring performance with a cycle counter.
+Processor clock rate ~= 1995.0 MHz
+
+Testing mm malloc
+Reading tracefile: alaska.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: amptjp.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: bash.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: boat.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: cccp.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: chrome.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: coalesce-big.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: coalescing-bal.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: corners.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: cp-decl.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: exhaust.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: firefox.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: firefox-reddit.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: hostname.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: login.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: lrucd.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: ls.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: malloc.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: malloc-free.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: needle.rep
+Checking mm_malloc for correctness, ERROR [trace ./traces/needle.rep, line 190407]: mm_malloc failed.
+Reading tracefile: nlydf.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: perl.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: qyqyc.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: random.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: rm.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: rulsr.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: seglist.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+Reading tracefile: short2.rep
+Checking mm_malloc for correctness, efficiency, .and performance.
+
+Results for mm malloc:
+  valid  util   ops    secs     Kops  trace
+   yes    63%  100000  0.012855  7779 ./traces/alaska.rep
+ * yes    97%    4805  0.000530  9064 ./traces/amptjp.rep
+ * yes    53%    4162  0.000370 11237 ./traces/bash.rep
+ * yes    33%   57716  0.031610  1826 ./traces/boat.rep
+ * yes    94%    5032  0.000503 10011 ./traces/cccp.rep
+ * yes    51%   11991  0.001314  9124 ./traces/chrome.rep
+ * yes     2%   20000  0.407412    49 ./traces/coalesce-big.rep
+   yes    49%   14400  0.000646 22280 ./traces/coalescing-bal.rep
+   yes   100%      15  0.000004  3816 ./traces/corners.rep
+ * yes    98%    5683  0.000687  8272 ./traces/cp-decl.rep
+ u yes    29%      --        --    -- ./traces/exhaust.rep
+ * yes    49%    8000  0.000807  9918 ./traces/firefox.rep
+   yes    56%   99804  0.049651  2010 ./traces/firefox-reddit.rep
+   yes    56%     118  0.000031  3838 ./traces/hostname.rep
+ * yes    73%   19405  0.007226  2686 ./traces/login.rep
+ * yes    78%     200  0.000017 11483 ./traces/lrucd.rep
+   yes    70%     372  0.000072  5132 ./traces/ls.rep
+   yes    74%      10  0.000003  2958 ./traces/malloc.rep
+   yes    69%      17  0.000003  6650 ./traces/malloc-free.rep
+ *  no      -       -         -     - ./traces/needle.rep
+ * yes    92%     200  0.000021  9341 ./traces/nlydf.rep
+   yes    64%    1494  0.000306  4881 ./traces/perl.rep
+ * yes    81%     200  0.000019 10678 ./traces/qyqyc.rep
+ * yes    72%    4800  0.000840  5717 ./traces/random.rep
+ * yes    75%     147  0.000037  3979 ./traces/rm.rep
+ * yes    89%     200  0.000016 12414 ./traces/rulsr.rep
+ p yes     --    6495  0.001419  4578 ./traces/seglist.rep
+   yes    98%      12  0.000003  3476 ./traces/short2.rep
+            -         -     -
+
+Terminated with 1 errors

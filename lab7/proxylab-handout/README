@@ -1,0 +1,31 @@
+****************
+CS:APP Proxy Lab
+****************
+
+Makefile	- For building and handing in proxy
+README		- This file
+
+# Proxy source files
+proxy.{c,h}	- Primary proxy code
+csapp.{c,h}	- Wrapper and helper functions from the CS:APP text
+
+/*
+ * proxy.c - CS:APP Web proxy
+ *
+ * TEAM MEMBERS:
+ *     郑淇木 1100012849 (Part I II)
+ *     赵天雨 1100012957 (Part III)
+ * 
+ * IMPORTANT: 
+ *     Proxy:
+ *             Multi-thread:    Supported
+ *             Robustness:      -Examine almost every return value
+ *                               Return and print error message when encountering error
+ *                              -Deal with races of threads carefully
+ *                              -Replace thread-unsafe function with thread-safe one
+ *     Cache: 
+ *            使用一个缓存结构（Cache）来对缓存进行管理。
+ *            使用一个节点（Node）链表来进行实际内容的缓存，根据 uri 对一个节点进行唯一的标记。
+ *            当缓存空间剩余足够的时候，直接将节点添加到链表尾部。
+ *            当缓存空间不足的时候，删除链表尾部的节点直到有足够的剩余空间。  
+ */ 
